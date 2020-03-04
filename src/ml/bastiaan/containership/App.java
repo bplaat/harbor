@@ -117,13 +117,9 @@ public class App {
         simulation.start();
 
         ContainerShip containership = simulation.getContainerShip();
-
         ArrayList<Crane> cranes = simulation.getCranes();
-
         Quay quay = simulation.getQuay();
-
         ArrayList<Truck> trucks = simulation.getTrucks();
-
         Warehouse warehouse = simulation.getWarehouse();
 
         Thread updateThread = new Thread() {
@@ -148,7 +144,6 @@ public class App {
                     }
                     quayList.setModel(quayListItems);
 
-
                     truck1Label.setText("Truck 1: " + (trucks.get(0).isWaiting() ? "Waiting" : trucks.get(0).getContainer().getName()));
                     truck2Label.setText("Truck 2: " + (trucks.get(1).isWaiting() ? "Waiting" : trucks.get(1).getContainer().getName()));
                     truck3Label.setText("Truck 3: " + (trucks.get(2).isWaiting() ? "Waiting" : trucks.get(2).getContainer().getName()));
@@ -161,11 +156,7 @@ public class App {
                     }
                     warehouseList.setModel(warehouseListItems);
 
-                    try {
-                        Thread.sleep(20);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    Utils.threadWait();
                 }
             }
         };

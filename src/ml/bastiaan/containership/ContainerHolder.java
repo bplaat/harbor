@@ -37,7 +37,16 @@ abstract public class ContainerHolder {
     }
 
     public synchronized Container removeContainer() {
-        if (containers.size() > 0) {
+        ArrayList<Integer> specialContainers = new ArrayList<Integer>();
+        for (int i = 0; i < containers.size(); i++) {
+            if (containers.get(i).getType() != Container.Type.STANDARD) {
+                specialContainers.add(i);
+            }
+        }
+
+        if (specialContainers.size() > 0) {
+            return containers.remove((int)specialContainers.get(Utils.rand(0, specialContainers.size() - 1)));
+        } else if (containers.size() > 0) {
             return containers.remove(Utils.rand(0, containers.size() - 1));
         } else {
             return null;

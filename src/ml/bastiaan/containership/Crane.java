@@ -4,6 +4,6 @@ package ml.bastiaan.containership;
 
 public class Crane extends Mover {
     public Crane(String name, ContainerHolder from, ContainerHolder to) {
-        super(name, from, to);
+        super(name, from, to, 2000);
     }
 }

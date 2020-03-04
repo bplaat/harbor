@@ -11,16 +11,24 @@ public class Container {
         COOLED
     }
 
-    private final String name;
+    private String name;
     private Type type;
 
     public Container() {
-        name = "Container " + containerNumber++;
-
         int randomTypeNumber = Utils.rand(0, 2);
-        if (randomTypeNumber == 0) type = Type.STANDARD;
-        if (randomTypeNumber == 1) type = Type.HEATED;
-        if (randomTypeNumber == 2) type = Type.COOLED;
+        if (randomTypeNumber == 0) {
+            name = "Container " + containerNumber;
+            type = Type.STANDARD;
+        }
+        if (randomTypeNumber == 1) {
+            name = "Container " + containerNumber + " (H)";
+            type = Type.HEATED;
+        }
+        if (randomTypeNumber == 2) {
+            name = "Container " + containerNumber + " (C)";
+            type = Type.COOLED;
+        }
+        containerNumber++;
     }
 
     public String getName() {
