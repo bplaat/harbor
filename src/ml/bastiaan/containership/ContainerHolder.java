@@ -5,13 +5,23 @@ package ml.bastiaan.containership;
 import java.util.ArrayList;
 
 abstract public class ContainerHolder {
+    protected final String name;
+    protected final int maxCount;
     protected final ArrayList<Container> containers;
 
-    public ContainerHolder() {
+    public ContainerHolder(String name, int maxCount) {
+        this.name = name;
+        this.maxCount = maxCount;
         containers = new ArrayList<Container>();
     }
 
-    abstract public int getMaxCount();
+    public String getName() {
+        return name;
+    }
+
+    public int getMaxCount() {
+        return maxCount;
+    }
 
     public ArrayList<Container> getContainers() {
         return containers;

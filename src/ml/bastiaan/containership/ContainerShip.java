@@ -5,14 +5,10 @@ package ml.bastiaan.containership;
 import java.util.ArrayList;
 
 public class ContainerShip extends ContainerHolder {
-    public ContainerShip() {
-        super();
+    public ContainerShip(String name) {
+        super(name, 100);
         for (int i = 0; i < getMaxCount(); i++) {
             containers.add(new Container());
         }
-    }
-
-    public int getMaxCount() {
-        return 100;
     }
 }

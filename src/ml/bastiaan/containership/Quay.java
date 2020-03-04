@@ -5,7 +5,7 @@ package ml.bastiaan.containership;
 import java.util.ArrayList;
 
 public class Quay extends ContainerHolder {
-    public int getMaxCount() {
-        return 5;
+    public Quay(String name) {
+        super(name, 5);
     }
 }

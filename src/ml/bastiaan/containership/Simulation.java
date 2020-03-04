@@ -18,16 +18,16 @@ public class Simulation {
     private final Warehouse warehouse;
 
     public Simulation() {
-        containership = new ContainerShip();
+        containership = new ContainerShip("Container Ship");
 
-        quay = new Quay();
+        quay = new Quay("Quay");
 
         cranes = new ArrayList<Crane>();
         for (int i = 1; i <= CRANE_INIT_COUNT; i++) {
             cranes.add(new Crane("Crane " + i, containership, quay));
         }
 
-        warehouse = new Warehouse();
+        warehouse = new Warehouse("Warehouse");
 
         trucks = new ArrayList<Truck>();
         for (int i = 1; i <= TRUCK_INIT_COUNT; i++) {

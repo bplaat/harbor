@@ -5,7 +5,7 @@ package ml.bastiaan.containership;
 import java.util.ArrayList;
 
 public class Warehouse extends ContainerHolder {
-    public int getMaxCount() {
-        return 100;
+    public Warehouse(String name) {
+        super(name, 100);
     }
 }
