@@ -1,19 +1,11 @@
+// Made by Bastiaan van der Plaat (0983259) from TINPRO02-3 or TINPRO03-1
+
 package ml.bastiaan.containership;
 
 import java.util.ArrayList;
 
-public class Warehouse {
-    private final ArrayList<Container> containers;
-
-    public Warehouse() {
-        containers = new ArrayList<Container>();
-    }
-
-    public ArrayList<Container> getContainers() {
-        return containers;
-    }
-
-    public synchronized void addContainer(Container container) {
-        containers.add(container);
+public class Warehouse extends ContainerHolder {
+    public int getMaxCount() {
+        return 100;
     }
 }

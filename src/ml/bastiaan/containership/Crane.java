@@ -1,3 +1,5 @@
+// Made by Bastiaan van der Plaat (0983259) from TINPRO02-3 or TINPRO03-1
+
 package ml.bastiaan.containership;
 
 public class Crane implements Runnable {
@@ -5,7 +7,6 @@ public class Crane implements Runnable {
     private final ContainerShip containership;
     private final Quay quay;
     private final Thread thread;
-    private volatile boolean running;
     private volatile boolean waiting;
     private volatile Container container;
 
@@ -17,7 +18,7 @@ public class Crane implements Runnable {
     }
 
     public void run() {
-        while (running) {
+        while (true) {
             container = containership.removeContainer();
             if (container != null) {
                 waiting = false;
@@ -31,19 +32,12 @@ public class Crane implements Runnable {
 
                 waiting = true;
                 while (!quay.addContainer(container));
-
                 System.out.println(name + " added " + container.getName() + " to the quay");
-                container = null;
-            }
-
-            else {
-                running = false;
             }
         }
     }
 
     public void start() {
-        running = true;
         waiting = true;
         thread.start();
     }

@@ -1,3 +1,5 @@
+// Made by Bastiaan van der Plaat (0983259) from TINPRO02-3 or TINPRO03-1
+
 package ml.bastiaan.containership;
 
 public class Truck implements Runnable {
@@ -5,7 +7,6 @@ public class Truck implements Runnable {
     private final Quay quay;
     private final Warehouse warehouse;
     private final Thread thread;
-    private volatile boolean running;
     private volatile boolean waiting;
     private volatile Container container;
 
@@ -17,7 +18,7 @@ public class Truck implements Runnable {
     }
 
     public void run() {
-        while (running) {
+        while (true) {
             container = quay.removeContainer();
             if (container != null) {
                 waiting = false;
@@ -35,16 +36,14 @@ public class Truck implements Runnable {
                     e.printStackTrace();
                 }
 
-                warehouse.addContainer(container);
-                System.out.println(name + " added " + container.getName() + " to the warehouse");
                 waiting = true;
-                container = null;
+                while (!warehouse.addContainer(container));
+                System.out.println(name + " added " + container.getName() + " to the warehouse");
             }
         }
     }
 
     public void start() {
-        running = true;
         waiting = true;
         thread.start();
     }
