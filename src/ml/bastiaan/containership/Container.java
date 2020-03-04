@@ -1,28 +1,28 @@
 package ml.bastiaan.containership;
 
-import java.util.UUID;
-
 public class Container {
+    private static int containerNumber = 1;
+
     public enum Type {
         STANDARD,
         HEATED,
         COOLED
     }
 
-    private final UUID uuid;
+    private final String name;
     private Type type;
 
     public Container() {
-        uuid = UUID.randomUUID();
+        name = "Container " + containerNumber++;
 
-        int randomTypeNumber = (int)(Math.random() * 3);
+        int randomTypeNumber = Utils.rand(0, 2);
         if (randomTypeNumber == 0) type = Type.STANDARD;
         if (randomTypeNumber == 1) type = Type.HEATED;
         if (randomTypeNumber == 2) type = Type.COOLED;
     }
 
-    public UUID getUUID() {
-        return uuid;
+    public String getName() {
+        return name;
     }
 
     public Type getType() {
