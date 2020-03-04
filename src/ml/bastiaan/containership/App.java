@@ -15,7 +15,6 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
-import javax.swing.SwingConstants;
 import java.util.ArrayList;
 
 public class App {
@@ -25,6 +24,7 @@ public class App {
         } catch (Exception e) {}
 
         JFrame frame = new JFrame("Container Ship Simulation");
+        frame.setIconImage(Utils.loadImage("containership.jpg", 64, 64).getImage());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1280, 720);
         frame.setLocationRelativeTo(null);
@@ -39,6 +39,11 @@ public class App {
         containershipBox.setBorder(border);
         box.add(containershipBox);
 
+        JLabel containershipImage = new JLabel(Utils.loadImage("containership.jpg", 96, 96));
+        containershipImage.setAlignmentX(Component.CENTER_ALIGNMENT);
+        containershipBox.add(containershipImage);
+        containershipBox.add(Box.createVerticalStrut(16));
+
         JLabel containershipLabel = new JLabel();
         Font font = new Font(containershipLabel.getFont().getName(), Font.BOLD, 18);
         containershipLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -52,6 +57,11 @@ public class App {
         Box cranesBox = Box.createVerticalBox();
         cranesBox.setBorder(border);
         box.add(cranesBox);
+
+        JLabel cranesImage = new JLabel(Utils.loadImage("crane.jpg", 96, 96));
+        cranesImage.setAlignmentX(Component.CENTER_ALIGNMENT);
+        cranesBox.add(cranesImage);
+        cranesBox.add(Box.createVerticalStrut(16));
 
         JLabel crane1Label = new JLabel();
         crane1Label.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -68,6 +78,11 @@ public class App {
         quayBox.setBorder(border);
         box.add(quayBox);
 
+        JLabel quayImage = new JLabel(Utils.loadImage("quay.jpg", 96, 96));
+        quayImage.setAlignmentX(Component.CENTER_ALIGNMENT);
+        quayBox.add(quayImage);
+        quayBox.add(Box.createVerticalStrut(16));
+
         JLabel quayLabel = new JLabel();
         quayLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         quayLabel.setFont(font);
@@ -80,6 +95,11 @@ public class App {
         Box trucksBox = Box.createVerticalBox();
         trucksBox.setBorder(border);
         box.add(trucksBox);
+
+        JLabel truckImage = new JLabel(Utils.loadImage("truck.jpg", 96, 96));
+        truckImage.setAlignmentX(Component.CENTER_ALIGNMENT);
+        trucksBox.add(truckImage);
+        trucksBox.add(Box.createVerticalStrut(16));
 
         JLabel truck1Label = new JLabel();
         truck1Label.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -102,6 +122,10 @@ public class App {
         warehouseBox.setBorder(border);
         box.add(warehouseBox);
 
+        JLabel warehouseImage = new JLabel(Utils.loadImage("warehouse.jpg", 96, 96));
+        warehouseImage.setAlignmentX(Component.CENTER_ALIGNMENT);
+        warehouseBox.add(warehouseImage);
+
         JLabel warehouseLabel = new JLabel();
         warehouseLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         warehouseLabel.setFont(font);
@@ -114,6 +138,7 @@ public class App {
         frame.setVisible(true);
 
         Simulation simulation = new Simulation();
+        System.out.println("Container Ship Simulation");
         simulation.start();
 
         ContainerShip containership = simulation.getContainerShip();
@@ -164,7 +189,6 @@ public class App {
     }
 
     public static void main(String[] args) {
-        System.out.println("Container Ship Simulation");
         new App();
     }
 }

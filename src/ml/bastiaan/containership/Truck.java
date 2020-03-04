@@ -4,7 +4,7 @@ package ml.bastiaan.containership;
 
 public class Truck extends Mover {
     public Truck(String name, ContainerHolder from, ContainerHolder to) {
-        super(name, from, to, 4000);
+        super(name, from, to, 3000);
     }
 
     @Override
