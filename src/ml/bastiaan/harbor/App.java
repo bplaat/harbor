@@ -1,6 +1,6 @@
 // Made by Bastiaan van der Plaat (0983259) from TINPRO02-3 or TINPRO03-1
 
-package ml.bastiaan.containership;
+package ml.bastiaan.harbor;
 
 import java.awt.Component;
 import java.awt.Font;
@@ -9,6 +9,7 @@ import javax.swing.border.Border;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -31,15 +32,21 @@ public class App {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {}
 
-        JFrame frame = new JFrame("Container Ship Simulation");
+        JFrame frame = new JFrame("Harbor Simulation");
         frame.setIconImage(Utils.loadImage("containership.jpg", 64, 64).getImage());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1280, 720);
         frame.setLocationRelativeTo(null);
 
         Box root = Box.createVerticalBox();
-        root.setBorder(BorderFactory.createEmptyBorder(8, 8, 16, 8));
+        root.setBorder(BorderFactory.createEmptyBorder(16, 8, 16, 8));
         frame.add(root);
+
+        Box buttonsBox =  Box.createHorizontalBox();
+        buttonsBox.add(new JButton("Start / Stop"));
+        buttonsBox.add(new JButton("Play / pause"));
+        root.add(buttonsBox);
+        root.add(Box.createVerticalStrut(8));
 
         JPanel box = new JPanel();
         box.setLayout(new GridLayout(1, 5));

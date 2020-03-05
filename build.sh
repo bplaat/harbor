@@ -2,9 +2,9 @@
 clear
 mkdir classes
 if javac -Xlint -d classes $(find src -name "*.java"); then
-    jar cfe containership.jar ml.bastiaan.containership.App -C classes . resources
+    jar cfe harbor.jar ml.bastiaan.harbor.App -C classes . resources
     rm -r classes
-    java -jar containership.jar
+    java -jar harbor.jar
 else
     rm -r classes
 fi
