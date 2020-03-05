@@ -6,7 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import javax.swing.border.Border;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -27,8 +29,10 @@ public class App {
 
         // Simulation
         Simulation simulation = new Simulation();
-        ContainerShip containership = simulation.getContainerShip();
-        ArrayList<Crane> cranes = simulation.getCranes();
+        ContainerShip containerShip = simulation.getContainerShip();
+        ArrayList<ContainerCrane> containerCranes = simulation.getContainerCranes();
+        OilShip oilShip = simulation.getOilShip();
+        ArrayList<OilPump> oilPumps = simulation.getOilPumps();
         Quay quay = simulation.getQuay();
         ArrayList<Truck> trucks = simulation.getTrucks();
         Warehouse warehouse = simulation.getWarehouse();
@@ -47,7 +51,9 @@ public class App {
         // Root
         Box root = Box.createVerticalBox();
         root.setBorder(BorderFactory.createEmptyBorder(16, 8, 16, 8));
-        frame.add(root);
+        JScrollPane rootScrollPane = new JScrollPane(root);
+        rootScrollPane.setBorder(null);
+        frame.add(rootScrollPane);
 
         // Buttons
         Box buttonsBox =  Box.createHorizontalBox();
@@ -96,63 +102,109 @@ public class App {
         buttonsBox.add(exitButton);
 
         // Main
-        JPanel box = new JPanel();
-        box.setLayout(new GridLayout(1, 5));
+        JPanel box = new JPanel(new GridBagLayout());
         root.add(box);
 
         // Container Ship
-        Box containershipBox = Box.createVerticalBox();
-        Border border = BorderFactory.createEmptyBorder(8, 8, 8, 8);
-        containershipBox.setBorder(border);
-        box.add(containershipBox);
+        Box containerShipBox = Box.createVerticalBox();
+        Insets insets = new Insets(8, 8, 8, 8);
+        box.add(containerShipBox, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0));
 
-        JLabel containershipImage = new JLabel(Utils.loadImage("containership.jpg", 96, 96));
-        containershipImage.setAlignmentX(Component.CENTER_ALIGNMENT);
-        containershipBox.add(containershipImage);
-        containershipBox.add(Box.createVerticalStrut(16));
+        JLabel containerShipImage = new JLabel(Utils.loadImage("containership.jpg", 96, 96));
+        containerShipImage.setAlignmentX(Component.CENTER_ALIGNMENT);
+        containerShipBox.add(containerShipImage);
+        containerShipBox.add(Box.createVerticalStrut(16));
 
-        JLabel containershipLabel = new JLabel();
-        containershipLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        Font font = new Font(containershipLabel.getFont().getName(), Font.BOLD, 16);
-        containershipLabel.setFont(font);
-        containershipBox.add(containershipLabel);
-        containershipBox.add(Box.createVerticalStrut(16));
+        JLabel containerShipLabel = new JLabel();
+        containerShipLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        Font font = new Font(containerShipLabel.getFont().getName(), Font.BOLD, 16);
+        containerShipLabel.setFont(font);
+        containerShipBox.add(containerShipLabel);
+        containerShipBox.add(Box.createVerticalStrut(16));
 
-        JList<String> containershipList = new JList<String>();
-        containershipBox.add(new JScrollPane(containershipList));
+        JList<String> containerShipList = new JList<String>();
+        containerShipBox.add(new JScrollPane(containerShipList));
 
-        // Cranes
-        Box cranesBox = Box.createVerticalBox();
-        cranesBox.setBorder(border);
-        box.add(cranesBox);
+        // Container Cranes
+        Box containerCranesBox = Box.createVerticalBox();
+        box.add(containerCranesBox, new GridBagConstraints(1, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0));
 
-        JLabel cranesImage = new JLabel(Utils.loadImage("crane.jpg", 96, 96));
-        cranesImage.setAlignmentX(Component.CENTER_ALIGNMENT);
-        cranesBox.add(cranesImage);
-        cranesBox.add(Box.createVerticalStrut(16));
+        JLabel containerCranesImage = new JLabel(Utils.loadImage("containercrane.jpg", 96, 96));
+        containerCranesImage.setAlignmentX(Component.CENTER_ALIGNMENT);
+        containerCranesBox.add(containerCranesImage);
+        containerCranesBox.add(Box.createVerticalStrut(16));
 
-        JLabel cranesLabel = new JLabel();
-        cranesLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        cranesLabel.setFont(font);
-        cranesBox.add(cranesLabel);
-        cranesBox.add(Box.createVerticalGlue());
+        JLabel containerCranesLabel = new JLabel();
+        containerCranesLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        containerCranesLabel.setFont(font);
+        containerCranesBox.add(containerCranesLabel);
+        containerCranesBox.add(Box.createVerticalGlue());
 
-        JLabel crane1Label = new JLabel();
-        crane1Label.setAlignmentX(Component.CENTER_ALIGNMENT);
-        crane1Label.setFont(font);
-        cranesBox.add(crane1Label);
-        cranesBox.add(Box.createVerticalStrut(16));
+        JLabel[] containerCraneLabels = new JLabel[containerCranes.size()];
+        for (int i = 0; i < containerCranes.size(); i++) {
+            JLabel containerCraneLabel = new JLabel();
+            containerCraneLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            containerCraneLabel.setFont(font);
+            containerCraneLabels[i] = containerCraneLabel;
+            containerCranesBox.add(containerCraneLabel);
+            if (i == containerCranes.size() - 1) {
+                containerCranesBox.add(Box.createVerticalGlue());
+            } else {
+                containerCranesBox.add(Box.createVerticalStrut(16));
+            }
+        }
 
-        JLabel crane2Label = new JLabel();
-        crane2Label.setAlignmentX(Component.CENTER_ALIGNMENT);
-        crane2Label.setFont(font);
-        cranesBox.add(crane2Label);
-        cranesBox.add(Box.createVerticalGlue());
+        // Oil Ship
+        Box oilShipBox = Box.createVerticalBox();
+        box.add(oilShipBox, new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0));
+
+        JLabel oilShipImage = new JLabel(Utils.loadImage("oilship.jpg", 96, 96));
+        oilShipImage.setAlignmentX(Component.CENTER_ALIGNMENT);
+        oilShipBox.add(oilShipImage);
+        oilShipBox.add(Box.createVerticalStrut(16));
+
+        JLabel oilShipLabel = new JLabel();
+        oilShipLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        oilShipLabel.setFont(font);
+        oilShipBox.add(oilShipLabel);
+        oilShipBox.add(Box.createVerticalStrut(16));
+
+        JList<String> oilShipList = new JList<String>();
+        oilShipBox.add(new JScrollPane(oilShipList));
+
+        // Oil Pumps
+        Box oilPumpsBox = Box.createVerticalBox();
+        box.add(oilPumpsBox, new GridBagConstraints(1, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0));
+
+        JLabel oilPumpsImage = new JLabel(Utils.loadImage("oilpump.jpg", 96, 96));
+        oilPumpsImage.setAlignmentX(Component.CENTER_ALIGNMENT);
+        oilPumpsBox.add(oilPumpsImage);
+        oilPumpsBox.add(Box.createVerticalStrut(16));
+
+        JLabel oilPumpsLabel = new JLabel();
+        oilPumpsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        oilPumpsLabel.setFont(font);
+        oilPumpsBox.add(oilPumpsLabel);
+        oilPumpsBox.add(Box.createVerticalGlue());
+
+
+        JLabel[] oilPumpLabels = new JLabel[oilPumps.size()];
+        for (int i = 0; i < oilPumps.size(); i++) {
+            JLabel oilPumpLabel = new JLabel();
+            oilPumpLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            oilPumpLabel.setFont(font);
+            oilPumpLabels[i] = oilPumpLabel;
+            oilPumpsBox.add(oilPumpLabel);
+            if (i == oilPumps.size() - 1) {
+                oilPumpsBox.add(Box.createVerticalGlue());
+            } else {
+                oilPumpsBox.add(Box.createVerticalStrut(16));
+            }
+        }
 
         // Quay
         Box quayBox = Box.createVerticalBox();
-        quayBox.setBorder(border);
-        box.add(quayBox);
+        box.add(quayBox, new GridBagConstraints(2, 0, 1, 2, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0));
 
         JLabel quayImage = new JLabel(Utils.loadImage("quay.jpg", 96, 96));
         quayImage.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -170,8 +222,7 @@ public class App {
 
         // Trucks
         Box trucksBox = Box.createVerticalBox();
-        trucksBox.setBorder(border);
-        box.add(trucksBox);
+        box.add(trucksBox, new GridBagConstraints(3, 0, 1, 2, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0));
 
         JLabel truckImage = new JLabel(Utils.loadImage("truck.jpg", 96, 96));
         truckImage.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -184,28 +235,23 @@ public class App {
         trucksBox.add(trucksLabel);
         trucksBox.add(Box.createVerticalGlue());
 
-        JLabel truck1Label = new JLabel();
-        truck1Label.setAlignmentX(Component.CENTER_ALIGNMENT);
-        truck1Label.setFont(font);
-        trucksBox.add(truck1Label);
-        trucksBox.add(Box.createVerticalStrut(16));
-
-        JLabel truck2Label = new JLabel();
-        truck2Label.setAlignmentX(Component.CENTER_ALIGNMENT);
-        truck2Label.setFont(font);
-        trucksBox.add(truck2Label);
-        trucksBox.add(Box.createVerticalStrut(16));
-
-        JLabel truck3Label = new JLabel();
-        truck3Label.setAlignmentX(Component.CENTER_ALIGNMENT);
-        truck3Label.setFont(font);
-        trucksBox.add(truck3Label);
-        trucksBox.add(Box.createVerticalGlue());
+        JLabel[] truckLabels = new JLabel[trucks.size()];
+        for (int i = 0; i < trucks.size(); i++) {
+            JLabel truckLabel = new JLabel();
+            truckLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            truckLabel.setFont(font);
+            truckLabels[i] = truckLabel;
+            trucksBox.add(truckLabel);
+            if (i == trucks.size() - 1) {
+                trucksBox.add(Box.createVerticalGlue());
+            } else {
+                trucksBox.add(Box.createVerticalStrut(16));
+            }
+        }
 
         // Warehouse
         Box warehouseBox = Box.createVerticalBox();
-        warehouseBox.setBorder(border);
-        box.add(warehouseBox);
+        box.add(warehouseBox, new GridBagConstraints(4, 0, 1, 2, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0));
 
         JLabel warehouseImage = new JLabel(Utils.loadImage("warehouse.jpg", 96, 96));
         warehouseImage.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -232,148 +278,157 @@ public class App {
             public void run() {
                 while (true) {
                     // Container ship
-                    if (!containership.isRunning()) {
-                        containershipLabel.setText("Container Ship: Stoped");
+                    if (!containerShip.isRunning()) {
+                        containerShipLabel.setText("Container Ship: Stoped");
                     } else {
-                        ArrayList<Container> containershipContainers = containership.getContainers();
-                        if (containershipContainers != null) {
-                            if (!containership.isPlaying()) {
-                                containershipLabel.setText("Container Ship: Paused");
+                        ArrayList<Item> containerShipItems = containerShip.getItems();
+                        if (containerShipItems != null) {
+                            if (!containerShip.isPlaying()) {
+                                containerShipLabel.setText("Container Ship: Paused");
                             } else {
-                                containershipLabel.setText("Container Ship: " + containershipContainers.size() + " / " + containership.getMaxCount());
+                                containerShipLabel.setText("Container Ship: " + containerShipItems.size() + " / " + containerShip.getMaxCount());
                             }
 
-                            DefaultListModel<String> containershipListItems = new DefaultListModel<String>();
-                            for (int i = containershipContainers.size() - 1; i >= 0; i--) {
-                                containershipListItems.addElement(containershipContainers.get(i).getName());
+                            DefaultListModel<String> containerShipListItems = new DefaultListModel<String>();
+                            for (int i = containerShipItems.size() - 1; i >= 0; i--) {
+                                containerShipListItems.addElement(containerShipItems.get(i).getName());
                             }
-                            containershipList.setModel(containershipListItems);
+                            containerShipList.setModel(containerShipListItems);
 
-                            if (containershipContainers.size() == 1) {
+                            if (containerShipItems.size() == 1) {
                                 JOptionPane.showMessageDialog(null, "The container ship is cleared!");
                             }
                         }
                     }
 
-                    // Cranes
-                    int cranesContainerCount = 0;
-
-                    // Crane 1
-                    if (!cranes.get(0).isRunning()) {
-                        crane1Label.setText("Crane 1: Stoped");
-                    } else if (!cranes.get(0).isPlaying()) {
-                        crane1Label.setText("Crane 1: Paused");
-                    } else if (cranes.get(0).isWaiting()) {
-                        crane1Label.setText("Crane 1: Waiting...");
+                    // Container Cranes
+                    int containerCranesItemCount = 0;
+                    for (int i = 0; i < containerCranes.size(); i++) {
+                        ContainerCrane containerCrane = containerCranes.get(i);
+                        if (!containerCrane.isRunning()) {
+                            containerCraneLabels[i].setText(containerCrane.getName() + ": Stoped");
+                        } else if (!containerCrane.isPlaying()) {
+                            containerCraneLabels[i].setText(containerCrane.getName() + ": Paused");
+                        } else if (containerCrane.isWaiting()) {
+                            containerCraneLabels[i].setText(containerCrane.getName() + ": Waiting...");
+                        } else {
+                            containerCraneLabels[i].setText(containerCrane.getName() + ": " + containerCranes.get(i).getItem().getName());
+                            containerCranesItemCount++;
+                        }
+                    }
+                    if (!containerCranes.get(0).isRunning()) {
+                        containerCranesLabel.setText("Container Cranes: Stoped");
+                    } else if (!containerCranes.get(0).isPlaying()) {
+                        containerCranesLabel.setText("Container Cranes: Paused");
                     } else {
-                        cranesContainerCount++;
-                        crane1Label.setText("Crane 1: " + cranes.get(0).getContainer().getName());
+                        containerCranesLabel.setText("Container Cranes: " + containerCranesItemCount + " / " + containerCranes.size());
                     }
 
-                    // Crane 2
-                    if (!cranes.get(1).isRunning()) {
-                        crane2Label.setText("Crane 2: Stoped");
-                    } else if (!cranes.get(1).isPlaying()) {
-                        crane2Label.setText("Crane 2: Paused");
-                    } else if (cranes.get(1).isWaiting()) {
-                        crane2Label.setText("Crane 2: Waiting...");
+                    // Oil ship
+                    if (!oilShip.isRunning()) {
+                        oilShipLabel.setText("Oil Ship: Stoped");
                     } else {
-                        cranesContainerCount++;
-                        crane2Label.setText("Crane 2: " + cranes.get(1).getContainer().getName());
+                        ArrayList<Item> oilShipItems = oilShip.getItems();
+                        if (oilShipItems != null) {
+                            if (!oilShip.isPlaying()) {
+                                oilShipLabel.setText("Oil Ship: Paused");
+                            } else {
+                                oilShipLabel.setText("Oil Ship: " + oilShipItems.size() + " / " + oilShip.getMaxCount());
+                            }
+
+                            DefaultListModel<String> oilShipListItems = new DefaultListModel<String>();
+                            for (int i = oilShipItems.size() - 1; i >= 0; i--) {
+                                oilShipListItems.addElement(oilShipItems.get(i).getName());
+                            }
+                            oilShipList.setModel(oilShipListItems);
+
+                            if (oilShipItems.size() == 1) {
+                                JOptionPane.showMessageDialog(null, "The oil ship is cleared!");
+                            }
+                        }
                     }
 
-                    // Cranes
-                    if (!cranes.get(0).isRunning() && !cranes.get(1).isRunning()) {
-                        cranesLabel.setText("Cranes: Stoped");
-                    } else if (!cranes.get(0).isPlaying() && !cranes.get(1).isPlaying()) {
-                        cranesLabel.setText("Cranes: Paused");
+                    // Oil Pumps
+                    int oilPumpsItemCount = 0;
+                    for (int i = 0; i < oilPumps.size(); i++) {
+                        OilPump oilPump = oilPumps.get(i);
+                        if (!oilPump.isRunning()) {
+                            oilPumpLabels[i].setText(oilPump.getName() + ": Stoped");
+                        } else if (!oilPump.isPlaying()) {
+                            oilPumpLabels[i].setText(oilPump.getName() + ": Paused");
+                        } else if (oilPump.isWaiting()) {
+                            oilPumpLabels[i].setText(oilPump.getName() + ": Waiting...");
+                        } else {
+                            oilPumpLabels[i].setText(oilPump.getName() + ": " + oilPumps.get(i).getItem().getName());
+                            oilPumpsItemCount++;
+                        }
+                    }
+                    if (!oilPumps.get(0).isRunning()) {
+                        oilPumpsLabel.setText("Oil Pumps: Stoped");
+                    } else if (!oilPumps.get(0).isPlaying()) {
+                        oilPumpsLabel.setText("Oil Pumps: Paused");
                     } else {
-                        cranesLabel.setText("Cranes: " + cranesContainerCount + " / " + cranes.size());
+                        oilPumpsLabel.setText("Oil Pumps: " + oilPumpsItemCount + " / " + oilPumps.size());
                     }
 
                     // Quay
                     if (!quay.isRunning()) {
                         quayLabel.setText("Quay: Stoped");
                     } else {
-                        ArrayList<Container> quayContainers = quay.getContainers();
-                        if (quayContainers != null) {
+                        ArrayList<Item> quayItems = quay.getItems();
+                        if (quayItems != null) {
                             if (!quay.isPlaying()) {
                                 quayLabel.setText("Quay: Paused");
                             } else {
-                                quayLabel.setText("Quay: " + quayContainers.size() + " / " + quay.getMaxCount());
+                                quayLabel.setText("Quay: " + quayItems.size() + " / " + quay.getMaxCount());
                             }
 
                             DefaultListModel<String> quayListItems = new DefaultListModel<String>();
-                            for (int i = quayContainers.size() - 1; i >= 0; i--) {
-                                quayListItems.addElement(quayContainers.get(i).getName());
+                            for (int i = quayItems.size() - 1; i >= 0; i--) {
+                                quayListItems.addElement(quayItems.get(i).getName());
                             }
                             quayList.setModel(quayListItems);
                         }
                     }
 
                     // Trucks
-                    int trucksContainerCount = 0;
-
-                    // Truck 1
+                    int trucksItemCount = 0;
+                    for (int i = 0; i < trucks.size(); i++) {
+                        Truck truck = trucks.get(i);
+                        if (!truck.isRunning()) {
+                            truckLabels[i].setText(truck.getName() + ": Stoped");
+                        } else if (!truck.isPlaying()) {
+                            truckLabels[i].setText(truck.getName() + ": Paused");
+                        } else if (truck.isWaiting()) {
+                            truckLabels[i].setText(truck.getName() + ": Waiting...");
+                        } else {
+                            truckLabels[i].setText(truck.getName() + ": " + trucks.get(i).getItem().getName());
+                            trucksItemCount++;
+                        }
+                    }
                     if (!trucks.get(0).isRunning()) {
-                        truck1Label.setText("Truck 1: Stoped");
+                        trucksLabel.setText("Trucks: Stoped");
                     } else if (!trucks.get(0).isPlaying()) {
-                        truck1Label.setText("Truck 1: Paused");
-                    } else if (trucks.get(0).isWaiting()) {
-                        truck1Label.setText("Truck 1: Waiting...");
+                        trucksLabel.setText("Trucks: Paused");
                     } else {
-                        trucksContainerCount++;
-                        truck1Label.setText("Truck 1: " + trucks.get(0).getContainer().getName());
-                    }
-
-                    // Truck 2
-                    if (!trucks.get(1).isRunning()) {
-                        truck2Label.setText("Truck 2: Stoped");
-                    } else if (!trucks.get(1).isPlaying()) {
-                        truck2Label.setText("Truck 2: Paused");
-                    } else if (trucks.get(1).isWaiting()) {
-                        truck2Label.setText("Truck 2: Waiting...");
-                    } else {
-                        trucksContainerCount++;
-                        truck2Label.setText("Truck 2: " + trucks.get(1).getContainer().getName());
-                    }
-
-                    // Truck 3
-                    if (!trucks.get(2).isRunning()) {
-                        truck3Label.setText("Truck 3: Stoped");
-                    } else if (!trucks.get(2).isPlaying()) {
-                        truck3Label.setText("Truck 3: Paused");
-                    } else if (trucks.get(2).isWaiting()) {
-                        truck3Label.setText("Truck 3: Waiting...");
-                    } else {
-                        trucksContainerCount++;
-                        truck3Label.setText("Truck 3: " + trucks.get(2).getContainer().getName());
-                    }
-
-                    // Trucks
-                    if (!trucks.get(0).isRunning() && !trucks.get(1).isRunning() && !trucks.get(2).isRunning()) {
-                        trucksLabel.setText("Cranes: Stoped");
-                    } else if (!trucks.get(0).isPlaying() && !trucks.get(1).isPlaying() && !trucks.get(2).isPlaying()) {
-                        trucksLabel.setText("Cranes: Paused");
-                    } else {
-                        trucksLabel.setText("Trucks: " + trucksContainerCount + " / " + trucks.size());
+                        trucksLabel.setText("Trucks: " + trucksItemCount + " / " + trucks.size());
                     }
 
                     // Warehouse
                     if (!warehouse.isRunning()) {
                         warehouseLabel.setText("Warehouse: Stoped");
                     } else {
-                        ArrayList<Container> warehouseContainers = warehouse.getContainers();
-                        if (warehouseContainers != null) {
+                        ArrayList<Item> warehouseItems = warehouse.getItems();
+                        if (warehouseItems != null) {
                             if (!warehouse.isPlaying()) {
                                 warehouseLabel.setText("Warehouse: Paused");
                             } else {
-                                warehouseLabel.setText("Warehouse: " + warehouseContainers.size() + " / " + warehouse.getMaxCount());
+                                warehouseLabel.setText("Warehouse: " + warehouseItems.size() + " / " + warehouse.getMaxCount());
                             }
 
                             DefaultListModel<String> warehouseListItems = new DefaultListModel<String>();
-                            for (int i = warehouseContainers.size() - 1; i >= 0; i--) {
-                                warehouseListItems.addElement(warehouseContainers.get(i).getName());
+                            for (int i = warehouseItems.size() - 1; i >= 0; i--) {
+                                warehouseListItems.addElement(warehouseItems.get(i).getName());
                             }
                             warehouseList.setModel(warehouseListItems);
                         }

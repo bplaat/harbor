@@ -2,34 +2,30 @@
 
 package ml.bastiaan.harbor;
 
-public class Container {
+public class Container extends Item {
     public enum Type {
         STANDARD,
         HEATED,
         COOLED
     }
 
-    private String name;
     private Type type;
 
-    public Container(int number) {
+    public Container(String name) {
+        super(name);
+
         int randomTypeNumber = Utils.rand(0, 2);
         if (randomTypeNumber == 0) {
-            name = "Container " + number;
             type = Type.STANDARD;
         }
         if (randomTypeNumber == 1) {
-            name = "Container " + number + " (H)";
+            this.name = name + " (H)";
             type = Type.HEATED;
         }
         if (randomTypeNumber == 2) {
-            name = "Container " + number + " (C)";
+            this.name = name + " (C)";
             type = Type.COOLED;
         }
-    }
-
-    public String getName() {
-        return name;
     }
 
     public Type getType() {

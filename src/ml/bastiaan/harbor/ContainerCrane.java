@@ -2,13 +2,14 @@
 
 package ml.bastiaan.harbor;
 
-public class Crane extends Mover {
-    public Crane(String name, ContainerHolder from, ContainerHolder to) {
+public class ContainerCrane extends ItemMover {
+    public ContainerCrane(String name, ItemHolder from, ItemHolder to) {
         super(name, from, to);
+        this.itemNamePrefix = "Container";
     }
 
     @Override
-    public void handleContainer(Container container) {
+    public void handleItem(Item item) {
         try {
             Thread.sleep(Utils.rand(1000, 2000));
         } catch (Exception e) {

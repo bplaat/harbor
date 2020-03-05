@@ -5,8 +5,12 @@ package ml.bastiaan.harbor;
 import java.util.ArrayList;
 
 public class Simulation {
-    private final ContainerShip containership;
-    private final ArrayList<Crane> cranes;
+    private final ContainerShip containerShip;
+    private final ArrayList<ContainerCrane> containerCranes;
+
+    private final OilShip oilShip;
+    private final ArrayList<OilPump> oilPumps;
+
     private final Quay quay;
     private final ArrayList<Truck> trucks;
     private final Warehouse warehouse;
@@ -14,20 +18,30 @@ public class Simulation {
     private boolean playing;
 
     public Simulation() {
-        containership = new ContainerShip("Container Ship");
+        containerShip = new ContainerShip("Container Ship");
+
+        oilShip = new OilShip("Oil Ship");
 
         quay = new Quay("Quay");
 
-        cranes = new ArrayList<Crane>();
+        containerCranes = new ArrayList<ContainerCrane>();
+        for (int i = 1; i <= 3; i++) {
+            containerCranes.add(new ContainerCrane("Container Crane " + i, containerShip, quay));
+        }
+
+        oilPumps = new ArrayList<OilPump>();
         for (int i = 1; i <= 2; i++) {
-            cranes.add(new Crane("Crane " + i, containership, quay));
+            oilPumps.add(new OilPump("Oil Pump " + i, oilShip, quay));
         }
 
         warehouse = new Warehouse("Warehouse");
 
         trucks = new ArrayList<Truck>();
         for (int i = 1; i <= 3; i++) {
-            trucks.add(new Truck("Truck " + i, quay, warehouse));
+            trucks.add(new Truck("Container Truck " + i, quay, warehouse, Truck.Type.CONTAINER));
+        }
+        for (int i = 1; i <= 3; i++) {
+            trucks.add(new Truck("Oil Truck " + i, quay, warehouse, Truck.Type.OIL_BARREL));
         }
     }
 
@@ -37,10 +51,16 @@ public class Simulation {
         running = true;
         playing = true;
 
-        containership.start();
+        containerShip.start();
 
-        for (Crane crane : cranes) {
-            crane.start();
+        for (ContainerCrane containerCrane : containerCranes) {
+            containerCrane.start();
+        }
+
+        oilShip.start();
+
+        for (OilPump oilPump : oilPumps) {
+            oilPump.start();
         }
 
         quay.start();
@@ -58,10 +78,16 @@ public class Simulation {
         running = false;
         playing = false;
 
-        containership.stop();
+        containerShip.stop();
 
-        for (Crane crane : cranes) {
-            crane.stop();
+        for (ContainerCrane containerCrane : containerCranes) {
+            containerCrane.stop();
+        }
+
+        oilShip.stop();
+
+        for (OilPump oilPump : oilPumps) {
+            oilPump.stop();
         }
 
         quay.stop();
@@ -78,10 +104,16 @@ public class Simulation {
 
         playing = true;
 
-        containership.play();
+        containerShip.play();
 
-        for (Crane crane : cranes) {
-            crane.play();
+        for (ContainerCrane containerCrane : containerCranes) {
+            containerCrane.play();
+        }
+
+        oilShip.play();
+
+        for (OilPump oilPump : oilPumps) {
+            oilPump.play();
         }
 
         quay.play();
@@ -98,10 +130,16 @@ public class Simulation {
 
         playing = false;
 
-        containership.pause();
+        containerShip.pause();
 
-        for (Crane crane : cranes) {
-            crane.pause();
+        for (ContainerCrane containerCrane : containerCranes) {
+            containerCrane.pause();
+        }
+
+        oilShip.pause();
+
+        for (OilPump oilPump : oilPumps) {
+            oilPump.pause();
         }
 
         quay.pause();
@@ -122,11 +160,19 @@ public class Simulation {
     }
 
     public ContainerShip getContainerShip() {
-        return containership;
+        return containerShip;
     }
 
-    public ArrayList<Crane> getCranes() {
-        return cranes;
+    public ArrayList<ContainerCrane> getContainerCranes() {
+        return containerCranes;
+    }
+
+    public OilShip getOilShip() {
+        return oilShip;
+    }
+
+    public ArrayList<OilPump> getOilPumps() {
+        return oilPumps;
     }
 
     public Quay getQuay() {

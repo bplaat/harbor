@@ -4,8 +4,8 @@ package ml.bastiaan.harbor;
 
 import java.util.ArrayList;
 
-public class ContainerShip extends ItemHolder {
-    public ContainerShip(String name) {
+public class OilShip extends ItemHolder {
+    public OilShip(String name) {
         super(name, 100);
     }
 
@@ -13,7 +13,7 @@ public class ContainerShip extends ItemHolder {
     public void start() {
         super.start();
         for (int i = 1; i <= getMaxCount(); i++) {
-            items.add(new Container("Container " + i));
+            items.add(new OilBarrel("Oil Barrel " + i));
         }
     }
 }

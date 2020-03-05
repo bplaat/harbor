@@ -2,17 +2,18 @@
 
 package ml.bastiaan.harbor;
 
-abstract public class Mover implements Runnable {
+abstract public class ItemMover implements Runnable {
     protected final String name;
-    protected final ContainerHolder from;
-    protected final ContainerHolder to;
+    protected final ItemHolder from;
+    protected final ItemHolder to;
+    protected String itemNamePrefix;
     protected Thread thread;
     protected volatile boolean running = false;
     protected volatile boolean playing = false;
     protected volatile boolean waiting = true;
-    protected volatile Container container;
+    protected volatile Item item;
 
-    public Mover(String name, ContainerHolder from, ContainerHolder to) {
+    public ItemMover(String name, ItemHolder from, ItemHolder to) {
         this.name = name;
         this.from = from;
         this.to = to;
@@ -21,18 +22,18 @@ abstract public class Mover implements Runnable {
     public void run() {
         while (running) {
             if (playing) {
-                container = from.removeContainer();
-                if (container != null) {
+                item = from.removeItem(itemNamePrefix);
+                if (item != null) {
                     waiting = false;
-                    System.out.println(name + " removed " + container.getName() + " from " + from.getName());
+                    System.out.println(name + " removed " + item.getName() + " from " + from.getName());
 
-                    handleContainer(container);
+                    handleItem(item);
 
                     waiting = true;
-                    while (!to.addContainer(container)) {
+                    while (!to.addItem(item)) {
                         Utils.threadWait();
                     }
-                    System.out.println(name + " added " + container.getName() + " to " + to.getName());
+                    System.out.println(name + " added " + item.getName() + " to " + to.getName());
                 }
                 else {
                     Utils.threadWait();
@@ -44,7 +45,7 @@ abstract public class Mover implements Runnable {
         }
     }
 
-    abstract public void handleContainer(Container container);
+    abstract public void handleItem(Item item);
 
     public void start() {
         running = true;
@@ -91,7 +92,7 @@ abstract public class Mover implements Runnable {
         return waiting;
     }
 
-    public Container getContainer() {
-        return container;
+    public Item getItem() {
+        return item;
     }
 }

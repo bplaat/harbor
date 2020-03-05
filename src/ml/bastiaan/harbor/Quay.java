@@ -4,8 +4,8 @@ package ml.bastiaan.harbor;
 
 import java.util.ArrayList;
 
-public class Quay extends ContainerHolder {
+public class Quay extends ItemHolder {
     public Quay(String name) {
-        super(name, 5);
+        super(name, 10);
     }
 }
