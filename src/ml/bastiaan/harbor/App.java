@@ -441,6 +441,10 @@ public class App {
                                 warehouseListItems.addElement(warehouseItems.get(i).getName());
                             }
                             warehouseList.setModel(warehouseListItems);
+
+                            if (warehouseItems.size() == warehouse.getMaxCount() - 1) {
+                                JOptionPane.showMessageDialog(null, "The warehouse is full!");
+                            }
                         }
                     }
 

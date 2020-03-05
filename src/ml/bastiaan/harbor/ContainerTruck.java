@@ -10,7 +10,6 @@ public class ContainerTruck extends Truck {
     @Override
     public void handleItem(Item item) {
         Container container = (Container)item;
-
         if (container.getType() == Container.Type.HEATED) {
             System.out.println(name + " connect " + container.getName() + " to a heat element");
         }

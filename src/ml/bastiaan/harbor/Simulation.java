@@ -14,6 +14,7 @@ public class Simulation {
     private final Quay quay;
     private final ArrayList<Truck> trucks;
     private final Warehouse warehouse;
+
     private boolean running;
     private boolean playing;
 
