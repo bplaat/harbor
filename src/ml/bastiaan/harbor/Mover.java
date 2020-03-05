@@ -65,6 +65,11 @@ abstract public class Mover implements Runnable {
         running = false;
         playing = false;
         waiting = true;
+        try {
+            thread.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void play () {

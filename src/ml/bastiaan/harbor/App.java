@@ -25,6 +25,7 @@ public class App {
     public App() {
         System.out.println("The Harbor Simulation");
 
+        // Simulation
         Simulation simulation = new Simulation();
         ContainerShip containership = simulation.getContainerShip();
         ArrayList<Crane> cranes = simulation.getCranes();
@@ -32,6 +33,7 @@ public class App {
         ArrayList<Truck> trucks = simulation.getTrucks();
         Warehouse warehouse = simulation.getWarehouse();
 
+        // Window
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {}
@@ -42,10 +44,12 @@ public class App {
         frame.setSize(1280, 720);
         frame.setLocationRelativeTo(null);
 
+        // Root
         Box root = Box.createVerticalBox();
         root.setBorder(BorderFactory.createEmptyBorder(16, 8, 16, 8));
         frame.add(root);
 
+        // Buttons
         Box buttonsBox =  Box.createHorizontalBox();
         root.add(buttonsBox);
         root.add(Box.createVerticalStrut(8));
@@ -82,16 +86,12 @@ public class App {
         });
         buttonsBox.add(playPauseButton);
 
+        // Main
         JPanel box = new JPanel();
         box.setLayout(new GridLayout(1, 5));
         root.add(box);
 
-        JLabel footerLabel = new JLabel("Made by Bastiaan van der Plaat");
-        footerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        footerLabel.setFont(new Font(footerLabel.getFont().getName(), Font.PLAIN, 16));
-        root.add(Box.createVerticalStrut(8));
-        root.add(footerLabel);
-
+        // Container Ship
         Box containershipBox = Box.createVerticalBox();
         Border border = BorderFactory.createEmptyBorder(8, 8, 8, 8);
         containershipBox.setBorder(border);
@@ -112,6 +112,7 @@ public class App {
         JList<String> containershipList = new JList<String>();
         containershipBox.add(new JScrollPane(containershipList));
 
+        // Cranes
         Box cranesBox = Box.createVerticalBox();
         cranesBox.setBorder(border);
         box.add(cranesBox);
@@ -139,6 +140,7 @@ public class App {
         cranesBox.add(crane2Label);
         cranesBox.add(Box.createVerticalGlue());
 
+        // Quay
         Box quayBox = Box.createVerticalBox();
         quayBox.setBorder(border);
         box.add(quayBox);
@@ -157,6 +159,7 @@ public class App {
         JList<String> quayList = new JList<String>();
         quayBox.add(new JScrollPane(quayList));
 
+        // Trucks
         Box trucksBox = Box.createVerticalBox();
         trucksBox.setBorder(border);
         box.add(trucksBox);
@@ -190,6 +193,7 @@ public class App {
         trucksBox.add(truck3Label);
         trucksBox.add(Box.createVerticalGlue());
 
+        // Warehouse
         Box warehouseBox = Box.createVerticalBox();
         warehouseBox.setBorder(border);
         box.add(warehouseBox);
@@ -208,7 +212,12 @@ public class App {
         JList<String> warehouseList = new JList<String>();
         warehouseBox.add(new JScrollPane(warehouseList));
 
-        frame.setVisible(true);
+        // Footer
+        JLabel footerLabel = new JLabel("Made by Bastiaan van der Plaat");
+        footerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        footerLabel.setFont(new Font(footerLabel.getFont().getName(), Font.PLAIN, 16));
+        root.add(Box.createVerticalStrut(8));
+        root.add(footerLabel);
 
         Thread updateThread = new Thread() {
             public void run() {
@@ -337,6 +346,8 @@ public class App {
             }
         };
         updateThread.start();
+
+        frame.setVisible(true);
     }
 
     public static void main(String[] args) {

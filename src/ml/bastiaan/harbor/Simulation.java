@@ -5,20 +5,13 @@ package ml.bastiaan.harbor;
 import java.util.ArrayList;
 
 public class Simulation {
+    private final ContainerShip containership;
+    private final ArrayList<Crane> cranes;
+    private final Quay quay;
+    private final ArrayList<Truck> trucks;
+    private final Warehouse warehouse;
     private boolean running;
     private boolean playing;
-
-    private final ContainerShip containership;
-
-    public static final int CRANE_INIT_COUNT = 2;
-    private final ArrayList<Crane> cranes;
-
-    private final Quay quay;
-
-    public static final int TRUCK_INIT_COUNT = 3;
-    private final ArrayList<Truck> trucks;
-
-    private final Warehouse warehouse;
 
     public Simulation() {
         containership = new ContainerShip("Container Ship");
@@ -26,14 +19,14 @@ public class Simulation {
         quay = new Quay("Quay");
 
         cranes = new ArrayList<Crane>();
-        for (int i = 1; i <= CRANE_INIT_COUNT; i++) {
+        for (int i = 1; i <= 2; i++) {
             cranes.add(new Crane("Crane " + i, containership, quay));
         }
 
         warehouse = new Warehouse("Warehouse");
 
         trucks = new ArrayList<Truck>();
-        for (int i = 1; i <= TRUCK_INIT_COUNT; i++) {
+        for (int i = 1; i <= 3; i++) {
             trucks.add(new Truck("Truck " + i, quay, warehouse));
         }
     }
