@@ -5,6 +5,7 @@ package ml.bastiaan.harbor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -108,7 +109,10 @@ public class App {
         // Container Ship
         Box containerShipBox = Box.createVerticalBox();
         Insets insets = new Insets(8, 8, 8, 8);
-        box.add(containerShipBox, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0));
+        int columnMinWidth = 200;
+        int columnMinHeight = 275;
+        containerShipBox.setPreferredSize(new Dimension(columnMinWidth, columnMinHeight));
+        box.add(containerShipBox, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0));
 
         JLabel containerShipImage = new JLabel(Utils.loadImage("containership.jpg", 96, 96));
         containerShipImage.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -127,7 +131,8 @@ public class App {
 
         // Container Cranes
         Box containerCranesBox = Box.createVerticalBox();
-        box.add(containerCranesBox, new GridBagConstraints(1, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0));
+        containerCranesBox.setPreferredSize(new Dimension(columnMinWidth, columnMinHeight));
+        box.add(containerCranesBox, new GridBagConstraints(1, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0));
 
         JLabel containerCranesImage = new JLabel(Utils.loadImage("containercrane.jpg", 96, 96));
         containerCranesImage.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -156,7 +161,8 @@ public class App {
 
         // Oil Ship
         Box oilShipBox = Box.createVerticalBox();
-        box.add(oilShipBox, new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0));
+        oilShipBox.setPreferredSize(new Dimension(columnMinWidth, columnMinHeight));
+        box.add(oilShipBox, new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0));
 
         JLabel oilShipImage = new JLabel(Utils.loadImage("oilship.jpg", 96, 96));
         oilShipImage.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -174,7 +180,8 @@ public class App {
 
         // Oil Pumps
         Box oilPumpsBox = Box.createVerticalBox();
-        box.add(oilPumpsBox, new GridBagConstraints(1, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0));
+        oilPumpsBox.setPreferredSize(new Dimension(columnMinWidth, columnMinHeight));
+        box.add(oilPumpsBox, new GridBagConstraints(1, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0));
 
         JLabel oilPumpsImage = new JLabel(Utils.loadImage("oilpump.jpg", 96, 96));
         oilPumpsImage.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -204,7 +211,8 @@ public class App {
 
         // Quay
         Box quayBox = Box.createVerticalBox();
-        box.add(quayBox, new GridBagConstraints(2, 0, 1, 2, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0));
+        quayBox.setPreferredSize(new Dimension(columnMinWidth, columnMinHeight));
+        box.add(quayBox, new GridBagConstraints(2, 0, 1, 2, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0));
 
         JLabel quayImage = new JLabel(Utils.loadImage("quay.jpg", 96, 96));
         quayImage.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -222,7 +230,8 @@ public class App {
 
         // Trucks
         Box trucksBox = Box.createVerticalBox();
-        box.add(trucksBox, new GridBagConstraints(3, 0, 1, 2, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0));
+        trucksBox.setPreferredSize(new Dimension(columnMinWidth, columnMinHeight));
+        box.add(trucksBox, new GridBagConstraints(3, 0, 1, 2, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0));
 
         JLabel truckImage = new JLabel(Utils.loadImage("truck.jpg", 96, 96));
         truckImage.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -251,7 +260,8 @@ public class App {
 
         // Warehouse
         Box warehouseBox = Box.createVerticalBox();
-        box.add(warehouseBox, new GridBagConstraints(4, 0, 1, 2, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0));
+        warehouseBox.setPreferredSize(new Dimension(columnMinWidth, columnMinHeight));
+        box.add(warehouseBox, new GridBagConstraints(4, 0, 1, 2, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0));
 
         JLabel warehouseImage = new JLabel(Utils.loadImage("warehouse.jpg", 96, 96));
         warehouseImage.setAlignmentX(Component.CENTER_ALIGNMENT);

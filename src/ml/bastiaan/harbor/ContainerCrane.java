@@ -4,8 +4,7 @@ package ml.bastiaan.harbor;
 
 public class ContainerCrane extends ItemMover {
     public ContainerCrane(String name, ItemHolder from, ItemHolder to) {
-        super(name, from, to);
-        this.itemNamePrefix = "Container";
+        super(name, from, to, "Container");
     }
 
     @Override

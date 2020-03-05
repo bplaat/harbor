@@ -25,7 +25,7 @@ public class Simulation {
         quay = new Quay("Quay");
 
         containerCranes = new ArrayList<ContainerCrane>();
-        for (int i = 1; i <= 3; i++) {
+        for (int i = 1; i <= 2; i++) {
             containerCranes.add(new ContainerCrane("Container Crane " + i, containerShip, quay));
         }
 
@@ -38,10 +38,10 @@ public class Simulation {
 
         trucks = new ArrayList<Truck>();
         for (int i = 1; i <= 3; i++) {
-            trucks.add(new Truck("Container Truck " + i, quay, warehouse, Truck.Type.CONTAINER));
+            trucks.add(new ContainerTruck("Container Truck " + i, quay, warehouse));
         }
         for (int i = 1; i <= 3; i++) {
-            trucks.add(new Truck("Oil Truck " + i, quay, warehouse, Truck.Type.OIL_BARREL));
+            trucks.add(new OilTruck("Oil Truck " + i, quay, warehouse));
         }
     }
 

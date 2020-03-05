@@ -6,17 +6,18 @@ abstract public class ItemMover implements Runnable {
     protected final String name;
     protected final ItemHolder from;
     protected final ItemHolder to;
-    protected String itemNamePrefix;
+    protected final String itemNamePrefix;
     protected Thread thread;
     protected volatile boolean running = false;
     protected volatile boolean playing = false;
     protected volatile boolean waiting = true;
     protected volatile Item item;
 
-    public ItemMover(String name, ItemHolder from, ItemHolder to) {
+    public ItemMover(String name, ItemHolder from, ItemHolder to, String itemNamePrefix) {
         this.name = name;
         this.from = from;
         this.to = to;
+        this.itemNamePrefix = itemNamePrefix;
     }
 
     public void run() {
