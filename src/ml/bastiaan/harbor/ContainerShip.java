@@ -13,7 +13,7 @@ public class ContainerShip extends ContainerHolder {
     public void start() {
         super.start();
         for (int i = 0; i < getMaxCount(); i++) {
-            containers.add(new Container());
+            containers.add(new Container(i));
         }
     }
 }

@@ -86,6 +86,15 @@ public class App {
         });
         buttonsBox.add(playPauseButton);
 
+        JButton exitButton = new JButton("Exit");
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                System.exit(0);
+            }
+        });
+        buttonsBox.add(exitButton);
+
         // Main
         JPanel box = new JPanel();
         box.setLayout(new GridLayout(1, 5));
@@ -122,7 +131,7 @@ public class App {
         cranesBox.add(cranesImage);
         cranesBox.add(Box.createVerticalStrut(16));
 
-        JLabel cranesLabel = new JLabel("Cranes: " + cranes.size());
+        JLabel cranesLabel = new JLabel();
         cranesLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         cranesLabel.setFont(font);
         cranesBox.add(cranesLabel);
@@ -169,7 +178,7 @@ public class App {
         trucksBox.add(truckImage);
         trucksBox.add(Box.createVerticalStrut(16));
 
-        JLabel trucksLabel = new JLabel("Trucks: " + trucks.size());
+        JLabel trucksLabel = new JLabel();
         trucksLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         trucksLabel.setFont(font);
         trucksBox.add(trucksLabel);
@@ -215,7 +224,7 @@ public class App {
         // Footer
         JLabel footerLabel = new JLabel("Made by Bastiaan van der Plaat");
         footerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        footerLabel.setFont(new Font(footerLabel.getFont().getName(), Font.PLAIN, 16));
+        footerLabel.setFont(new Font(footerLabel.getFont().getName(), Font.PLAIN, 14));
         root.add(Box.createVerticalStrut(8));
         root.add(footerLabel);
 
@@ -246,6 +255,9 @@ public class App {
                         }
                     }
 
+                    // Cranes
+                    int cranesContainerCount = 0;
+
                     // Crane 1
                     if (!cranes.get(0).isRunning()) {
                         crane1Label.setText("Crane 1: Stoped");
@@ -253,7 +265,8 @@ public class App {
                         crane1Label.setText("Crane 1: Paused");
                     } else if (cranes.get(0).isWaiting()) {
                         crane1Label.setText("Crane 1: Waiting...");
-                    } else{
+                    } else {
+                        cranesContainerCount++;
                         crane1Label.setText("Crane 1: " + cranes.get(0).getContainer().getName());
                     }
 
@@ -264,8 +277,18 @@ public class App {
                         crane2Label.setText("Crane 2: Paused");
                     } else if (cranes.get(1).isWaiting()) {
                         crane2Label.setText("Crane 2: Waiting...");
-                    } else{
+                    } else {
+                        cranesContainerCount++;
                         crane2Label.setText("Crane 2: " + cranes.get(1).getContainer().getName());
+                    }
+
+                    // Cranes
+                    if (!cranes.get(0).isRunning() && !cranes.get(1).isRunning()) {
+                        cranesLabel.setText("Cranes: Stoped");
+                    } else if (!cranes.get(0).isPlaying() && !cranes.get(1).isPlaying()) {
+                        cranesLabel.setText("Cranes: Paused");
+                    } else {
+                        cranesLabel.setText("Cranes: " + cranesContainerCount + " / " + cranes.size());
                     }
 
                     // Quay
@@ -288,6 +311,9 @@ public class App {
                         }
                     }
 
+                    // Trucks
+                    int trucksContainerCount = 0;
+
                     // Truck 1
                     if (!trucks.get(0).isRunning()) {
                         truck1Label.setText("Truck 1: Stoped");
@@ -295,7 +321,8 @@ public class App {
                         truck1Label.setText("Truck 1: Paused");
                     } else if (trucks.get(0).isWaiting()) {
                         truck1Label.setText("Truck 1: Waiting...");
-                    } else{
+                    } else {
+                        trucksContainerCount++;
                         truck1Label.setText("Truck 1: " + trucks.get(0).getContainer().getName());
                     }
 
@@ -306,7 +333,8 @@ public class App {
                         truck2Label.setText("Truck 2: Paused");
                     } else if (trucks.get(1).isWaiting()) {
                         truck2Label.setText("Truck 2: Waiting...");
-                    } else{
+                    } else {
+                        trucksContainerCount++;
                         truck2Label.setText("Truck 2: " + trucks.get(1).getContainer().getName());
                     }
 
@@ -317,8 +345,18 @@ public class App {
                         truck3Label.setText("Truck 3: Paused");
                     } else if (trucks.get(2).isWaiting()) {
                         truck3Label.setText("Truck 3: Waiting...");
-                    } else{
+                    } else {
+                        trucksContainerCount++;
                         truck3Label.setText("Truck 3: " + trucks.get(2).getContainer().getName());
+                    }
+
+                    // Trucks
+                    if (!trucks.get(0).isRunning() && !trucks.get(1).isRunning() && !trucks.get(2).isRunning()) {
+                        trucksLabel.setText("Cranes: Stoped");
+                    } else if (!trucks.get(0).isPlaying() && !trucks.get(1).isPlaying() && !trucks.get(2).isPlaying()) {
+                        trucksLabel.setText("Cranes: Paused");
+                    } else {
+                        trucksLabel.setText("Trucks: " + trucksContainerCount + " / " + trucks.size());
                     }
 
                     // Warehouse

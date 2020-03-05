@@ -3,8 +3,6 @@
 package ml.bastiaan.harbor;
 
 public class Container {
-    private static int containerNumber = 1;
-
     public enum Type {
         STANDARD,
         HEATED,
@@ -14,21 +12,20 @@ public class Container {
     private String name;
     private Type type;
 
-    public Container() {
+    public Container(int number) {
         int randomTypeNumber = Utils.rand(0, 2);
         if (randomTypeNumber == 0) {
-            name = "Container " + containerNumber;
+            name = "Container " + number;
             type = Type.STANDARD;
         }
         if (randomTypeNumber == 1) {
-            name = "Container " + containerNumber + " (H)";
+            name = "Container " + number + " (H)";
             type = Type.HEATED;
         }
         if (randomTypeNumber == 2) {
-            name = "Container " + containerNumber + " (C)";
+            name = "Container " + number + " (C)";
             type = Type.COOLED;
         }
-        containerNumber++;
     }
 
     public String getName() {

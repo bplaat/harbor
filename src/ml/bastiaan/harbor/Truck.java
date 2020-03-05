@@ -4,7 +4,7 @@ package ml.bastiaan.harbor;
 
 public class Truck extends Mover {
     public Truck(String name, ContainerHolder from, ContainerHolder to) {
-        super(name, from, to, 4000);
+        super(name, from, to);
     }
 
     @Override
@@ -14,6 +14,12 @@ public class Truck extends Mover {
         }
         if (container.getType() == Container.Type.COOLED) {
             System.out.println(name + " connect " + container.getName() + " to a cooling element");
+        }
+
+        try {
+            Thread.sleep(Utils.rand(1000, 4000));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
