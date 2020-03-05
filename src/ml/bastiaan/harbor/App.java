@@ -2,6 +2,7 @@
 
 package ml.bastiaan.harbor;
 
+// Import the Java AWT / Swing classes for the GUI
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Component;
@@ -22,13 +23,19 @@ import javax.swing.JPanel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
+
+// Import other stuff
 import java.util.ArrayList;
 
 public class App {
-    public App() {
-        System.out.println("The Harbor Simulation");
+    // The APP constants
+    public static final String NAME = "The Harbor Simulation";
+    public static final String VERSION = "1.1";
 
-        // Simulation
+    public App() {
+        System.out.println(NAME + " v" + VERSION);
+
+        // Simulation and other classes
         Simulation simulation = new Simulation();
         ContainerShip containerShip = simulation.getContainerShip();
         ArrayList<ContainerCrane> containerCranes = simulation.getContainerCranes();
@@ -38,12 +45,13 @@ public class App {
         ArrayList<Truck> trucks = simulation.getTrucks();
         Warehouse warehouse = simulation.getWarehouse();
 
-        // Window
+        // Select the default UI look and feel
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {}
 
-        JFrame frame = new JFrame("The Harbor Simulation");
+        // Window
+        JFrame frame = new JFrame(NAME + " v" + VERSION);
         frame.setIconImage(Utils.loadImage("containership.jpg", 64, 64).getImage());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1280, 720);
@@ -78,6 +86,7 @@ public class App {
             }
         });
         buttonsBox.add(startStopButton);
+        buttonsBox.add(Box.createHorizontalStrut(8));
 
         playPauseButton.addActionListener(new ActionListener() {
             @Override
@@ -92,6 +101,7 @@ public class App {
             }
         });
         buttonsBox.add(playPauseButton);
+        buttonsBox.add(Box.createHorizontalStrut(8));
 
         JButton exitButton = new JButton("Exit");
         exitButton.addActionListener(new ActionListener() {
@@ -284,10 +294,11 @@ public class App {
         root.add(Box.createVerticalStrut(8));
         root.add(footerLabel);
 
+        // The update thread
         Thread updateThread = new Thread() {
             public void run() {
                 while (true) {
-                    // Container ship
+                    // Update the container ship
                     if (!containerShip.isRunning()) {
                         containerShipLabel.setText("Container Ship: Stoped");
                     } else {
@@ -311,7 +322,7 @@ public class App {
                         }
                     }
 
-                    // Container Cranes
+                    // Update the container Cranes
                     int containerCranesItemCount = 0;
                     for (int i = 0; i < containerCranes.size(); i++) {
                         ContainerCrane containerCrane = containerCranes.get(i);
@@ -334,7 +345,7 @@ public class App {
                         containerCranesLabel.setText("Container Cranes: " + containerCranesItemCount + " / " + containerCranes.size());
                     }
 
-                    // Oil ship
+                    // Update the oil ship
                     if (!oilShip.isRunning()) {
                         oilShipLabel.setText("Oil Ship: Stoped");
                     } else {
@@ -358,7 +369,7 @@ public class App {
                         }
                     }
 
-                    // Oil Pumps
+                    // Update the oil Pumps
                     int oilPumpsItemCount = 0;
                     for (int i = 0; i < oilPumps.size(); i++) {
                         OilPump oilPump = oilPumps.get(i);
@@ -381,7 +392,7 @@ public class App {
                         oilPumpsLabel.setText("Oil Pumps: " + oilPumpsItemCount + " / " + oilPumps.size());
                     }
 
-                    // Quay
+                    // Update the quay
                     if (!quay.isRunning()) {
                         quayLabel.setText("Quay: Stoped");
                     } else {
@@ -401,7 +412,7 @@ public class App {
                         }
                     }
 
-                    // Trucks
+                    // Update the trucks
                     int trucksItemCount = 0;
                     for (int i = 0; i < trucks.size(); i++) {
                         Truck truck = trucks.get(i);
@@ -424,7 +435,7 @@ public class App {
                         trucksLabel.setText("Trucks: " + trucksItemCount + " / " + trucks.size());
                     }
 
-                    // Warehouse
+                    // Update the warehouse
                     if (!warehouse.isRunning()) {
                         warehouseLabel.setText("Warehouse: Stoped");
                     } else {
@@ -448,16 +459,21 @@ public class App {
                         }
                     }
 
+                    // Wait a short while
                     Utils.threadWait();
                 }
             }
         };
+
+        // Start the update thread
         updateThread.start();
 
+        // Show the window
         frame.setVisible(true);
     }
 
     public static void main(String[] args) {
+        // Start the app
         new App();
     }
 }

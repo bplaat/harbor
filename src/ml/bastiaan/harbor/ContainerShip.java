@@ -2,13 +2,13 @@
 
 package ml.bastiaan.harbor;
 
-import java.util.ArrayList;
-
+// The container ship is just an Item Holder with a max count of 100
 public class ContainerShip extends ItemHolder {
     public ContainerShip(String name) {
         super(name, 100);
     }
 
+    // When started create the containers
     @Override
     public void start() {
         super.start();

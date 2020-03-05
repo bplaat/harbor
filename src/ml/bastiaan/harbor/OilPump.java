@@ -2,11 +2,13 @@
 
 package ml.bastiaan.harbor;
 
+// The oil pump is just an Item Mover
 public class OilPump extends ItemMover {
     public OilPump(String name, ItemHolder from, ItemHolder to) {
         super(name, from, to, "Oil Barrel");
     }
 
+    // It waits to handle an item
     @Override
     public void handleItem(Item item) {
         try {

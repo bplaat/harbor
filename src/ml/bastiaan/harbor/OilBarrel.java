@@ -2,6 +2,7 @@
 
 package ml.bastiaan.harbor;
 
+// An Oil Barrel is just an Item
 public class OilBarrel extends Item {
     public OilBarrel(String name) {
         super(name);

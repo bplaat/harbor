@@ -2,13 +2,16 @@
 
 package ml.bastiaan.harbor;
 
-public class Item {
+// The abstract Item class
+abstract public class Item {
     protected String name;
 
+    // Set the item name
     public Item(String name) {
         this.name = name;
     }
 
+    // Get the item name
     public String getName() {
         return name;
     }

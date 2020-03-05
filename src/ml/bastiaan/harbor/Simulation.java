@@ -4,7 +4,9 @@ package ml.bastiaan.harbor;
 
 import java.util.ArrayList;
 
+// The main simulation container
 public class Simulation {
+    // Final fields for all the classes / items of the simulation
     private final ContainerShip containerShip;
     private final ArrayList<ContainerCrane> containerCranes;
 
@@ -15,9 +17,11 @@ public class Simulation {
     private final ArrayList<Truck> trucks;
     private final Warehouse warehouse;
 
+    // Active state fields
     private boolean running;
     private boolean playing;
 
+    // Create all the simulation classes / items
     public Simulation() {
         containerShip = new ContainerShip("Container Ship");
 
@@ -46,6 +50,7 @@ public class Simulation {
         }
     }
 
+    // Start the simulation and all the simulation classes
     public void start() {
         System.out.println("Simulation started");
 
@@ -73,6 +78,7 @@ public class Simulation {
         warehouse.start();
     }
 
+    // Stop the simulation and all the simulation classes
     public void stop() {
         System.out.println("Simulation stoped");
 
@@ -100,6 +106,7 @@ public class Simulation {
         warehouse.stop();
     }
 
+    // Play the simulation and all the simulation classes
     public void play() {
         System.out.println("Simulation resumed");
 
@@ -126,6 +133,7 @@ public class Simulation {
         warehouse.play();
     }
 
+    // Pause the simulation and all the simulation classes
     public void pause() {
         System.out.println("Simulation paused");
 
@@ -152,38 +160,47 @@ public class Simulation {
         warehouse.pause();
     }
 
+    // Tell if the simulation is running
     public boolean isRunning() {
         return running;
     }
 
+    // Tell is the simulation is playing
     public boolean isPlaying() {
         return playing;
     }
 
+    // Get the container ship
     public ContainerShip getContainerShip() {
         return containerShip;
     }
 
+    // Get the container cranes
     public ArrayList<ContainerCrane> getContainerCranes() {
         return containerCranes;
     }
 
+    // Get the oil ship
     public OilShip getOilShip() {
         return oilShip;
     }
 
+    // Get the oil pumps
     public ArrayList<OilPump> getOilPumps() {
         return oilPumps;
     }
 
+    // Get the quay
     public Quay getQuay() {
         return quay;
     }
 
+    // Get the trucks
     public ArrayList<Truck> getTrucks() {
         return trucks;
     }
 
+    // Get the warehouse
     public Warehouse getWarehouse() {
         return warehouse;
     }

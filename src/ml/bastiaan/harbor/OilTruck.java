@@ -2,11 +2,13 @@
 
 package ml.bastiaan.harbor;
 
+// The oil truck is a truck with item handler
 public class OilTruck extends Truck {
     public OilTruck(String name, ItemHolder from, ItemHolder to) {
         super(name, from, to, "Oil Barrel");
     }
 
+    // Just wait to handle an item
     @Override
     public void handleItem(Item item) {
         try {

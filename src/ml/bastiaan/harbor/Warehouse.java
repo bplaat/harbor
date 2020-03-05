@@ -2,8 +2,7 @@
 
 package ml.bastiaan.harbor;
 
-import java.util.ArrayList;
-
+// The Warehouse class is an Item Holder with maximum item count of 200
 public class Warehouse extends ItemHolder {
     public Warehouse(String name) {
         super(name, 200);
