@@ -1,2 +1,2 @@
-# Harbor Simulation
-Object oriented programming 3 - handing in assignment - The container ship
+# The Harbor Simulation
+Object Oriented Programming 3 - Handing in Assignment - The Harbor Simulation

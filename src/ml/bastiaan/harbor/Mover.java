@@ -7,8 +7,10 @@ abstract public class Mover implements Runnable {
     protected final ContainerHolder from;
     protected final ContainerHolder to;
     protected final int maxWaitingTime;
-    protected final Thread thread;
-    protected volatile boolean waiting;
+    protected Thread thread;
+    protected volatile boolean running = false;
+    protected volatile boolean playing = false;
+    protected volatile boolean waiting = true;
     protected volatile Container container;
 
     public Mover(String name, ContainerHolder from, ContainerHolder to, int maxWaitingTime) {
@@ -16,30 +18,33 @@ abstract public class Mover implements Runnable {
         this.from = from;
         this.to = to;
         this.maxWaitingTime = maxWaitingTime;
-        thread = new Thread(this, name);
     }
 
     public void run() {
-        while (true) {
-            container = from.removeContainer();
-            if (container != null) {
-                waiting = false;
-                System.out.println(name + " removed " + container.getName() + " from " + from.getName());
-                handleContainer(container);
+        while (running) {
+            if (playing) {
+                container = from.removeContainer();
+                if (container != null) {
+                    waiting = false;
+                    System.out.println(name + " removed " + container.getName() + " from " + from.getName());
+                    handleContainer(container);
 
-                try {
-                    Thread.sleep(Utils.rand(1000, maxWaitingTime));
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    try {
+                        Thread.sleep(Utils.rand(1000, maxWaitingTime));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    waiting = true;
+                    while (!to.addContainer(container)) {
+                        Utils.threadWait();
+                    }
+                    System.out.println(name + " added " + container.getName() + " to " + to.getName());
                 }
-
-                waiting = true;
-                while (!to.addContainer(container)) {
+                else {
                     Utils.threadWait();
                 }
-                System.out.println(name + " added " + container.getName() + " to " + to.getName());
             }
-
             else {
                 Utils.threadWait();
             }
@@ -49,8 +54,35 @@ abstract public class Mover implements Runnable {
     public void handleContainer(Container container) {}
 
     public void start() {
+        running = true;
+        playing = true;
         waiting = true;
+        thread = new Thread(this, name);
         thread.start();
+    }
+
+    public void stop () {
+        running = false;
+        playing = false;
+        waiting = true;
+    }
+
+    public void play () {
+        playing = true;
+        waiting = true;
+    }
+
+    public void pause () {
+        playing = false;
+        waiting = true;
+    }
+
+    public boolean isRunning() {
+        return running;
+    }
+
+    public boolean isPlaying() {
+        return playing;
     }
 
     public String getName() {

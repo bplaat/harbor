@@ -7,12 +7,13 @@ import java.util.ArrayList;
 abstract public class ContainerHolder {
     protected final String name;
     protected final int maxCount;
-    protected final ArrayList<Container> containers;
+    protected boolean running = false;
+    protected boolean playing = false;
+    protected ArrayList<Container> containers;
 
     public ContainerHolder(String name, int maxCount) {
         this.name = name;
         this.maxCount = maxCount;
-        containers = new ArrayList<Container>();
     }
 
     public String getName() {
@@ -21,6 +22,33 @@ abstract public class ContainerHolder {
 
     public int getMaxCount() {
         return maxCount;
+    }
+
+    public void start() {
+        running = true;
+        playing = true;
+        containers = new ArrayList<Container>();
+    }
+
+    public void stop () {
+        running = false;
+        playing = false;
+    }
+
+    public void play () {
+        playing = true;
+    }
+
+    public void pause () {
+        playing = false;
+    }
+
+    public boolean isRunning() {
+        return running;
+    }
+
+    public boolean isPlaying() {
+        return playing;
     }
 
     public ArrayList<Container> getContainers() {
