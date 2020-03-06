@@ -20,7 +20,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.SwingUtilities;
@@ -323,10 +322,6 @@ public class App implements Runnable {
                                         containerShipListItems.addElement(containerShipItems.get(i).getName());
                                     }
                                     containerShipList.setModel(containerShipListItems);
-
-                                    if (containerShipItems.size() == 1) {
-                                        JOptionPane.showMessageDialog(null, "The container ship is cleared!");
-                                    }
                                 }
                             }
 
@@ -370,10 +365,6 @@ public class App implements Runnable {
                                         oilShipListItems.addElement(oilShipItems.get(i).getName());
                                     }
                                     oilShipList.setModel(oilShipListItems);
-
-                                    if (oilShipItems.size() == 1) {
-                                        JOptionPane.showMessageDialog(null, "The oil ship is cleared!");
-                                    }
                                 }
                             }
 
@@ -460,10 +451,6 @@ public class App implements Runnable {
                                         warehouseListItems.addElement(warehouseItems.get(i).getName());
                                     }
                                     warehouseList.setModel(warehouseListItems);
-
-                                    if (warehouseItems.size() == warehouse.getMaxCount() - 1) {
-                                        JOptionPane.showMessageDialog(null, "The warehouse is full!");
-                                    }
                                 }
                             }
                         }
