@@ -23,18 +23,23 @@ import javax.swing.JPanel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
+import javax.swing.SwingUtilities;
 
 // Import other stuff
 import java.util.ArrayList;
 
-public class App {
+public class App implements Runnable {
     // The APP constants
     public static final String NAME = "The Harbor Simulation";
     public static final String VERSION = "1.1";
 
+    // The standard constructor
     public App() {
         System.out.println(NAME + " v" + VERSION);
+    }
 
+    // The simulation and Java Swing code
+    public void run() {
         // Simulation and other classes
         Simulation simulation = new Simulation();
         ContainerShip containerShip = simulation.getContainerShip();
@@ -298,168 +303,173 @@ public class App {
         Thread updateThread = new Thread() {
             public void run() {
                 while (true) {
-                    // Update the container ship
-                    if (!containerShip.isRunning()) {
-                        containerShipLabel.setText("Container Ship: Stoped");
-                    } else {
-                        ArrayList<Item> containerShipItems = containerShip.getItems();
-                        if (containerShipItems != null) {
-                            if (!containerShip.isPlaying()) {
-                                containerShipLabel.setText("Container Ship: Paused");
+                    // Update the Java Swing UI in the good thread
+                    SwingUtilities.invokeLater(new Runnable() {
+                        public void run() {
+                            // Update the container ship
+                            if (!containerShip.isRunning()) {
+                                containerShipLabel.setText("Container Ship: Stoped");
                             } else {
-                                containerShipLabel.setText("Container Ship: " + containerShipItems.size() + " / " + containerShip.getMaxCount());
+                                ArrayList<Item> containerShipItems = containerShip.getItems();
+                                if (containerShipItems != null) {
+                                    if (!containerShip.isPlaying()) {
+                                        containerShipLabel.setText("Container Ship: Paused");
+                                    } else {
+                                        containerShipLabel.setText("Container Ship: " + containerShipItems.size() + " / " + containerShip.getMaxCount());
+                                    }
+
+                                    DefaultListModel<String> containerShipListItems = new DefaultListModel<String>();
+                                    for (int i = containerShipItems.size() - 1; i >= 0; i--) {
+                                        containerShipListItems.addElement(containerShipItems.get(i).getName());
+                                    }
+                                    containerShipList.setModel(containerShipListItems);
+
+                                    if (containerShipItems.size() == 1) {
+                                        JOptionPane.showMessageDialog(null, "The container ship is cleared!");
+                                    }
+                                }
                             }
 
-                            DefaultListModel<String> containerShipListItems = new DefaultListModel<String>();
-                            for (int i = containerShipItems.size() - 1; i >= 0; i--) {
-                                containerShipListItems.addElement(containerShipItems.get(i).getName());
+                            // Update the container Cranes
+                            int containerCranesItemCount = 0;
+                            for (int i = 0; i < containerCranes.size(); i++) {
+                                ContainerCrane containerCrane = containerCranes.get(i);
+                                if (!containerCrane.isRunning()) {
+                                    containerCraneLabels[i].setText(containerCrane.getName() + ": Stoped");
+                                } else if (!containerCrane.isPlaying()) {
+                                    containerCraneLabels[i].setText(containerCrane.getName() + ": Paused");
+                                } else if (containerCrane.isWaiting()) {
+                                    containerCraneLabels[i].setText(containerCrane.getName() + ": Waiting...");
+                                } else {
+                                    containerCraneLabels[i].setText(containerCrane.getName() + ": " + containerCranes.get(i).getItem().getName());
+                                    containerCranesItemCount++;
+                                }
                             }
-                            containerShipList.setModel(containerShipListItems);
-
-                            if (containerShipItems.size() == 1) {
-                                JOptionPane.showMessageDialog(null, "The container ship is cleared!");
-                            }
-                        }
-                    }
-
-                    // Update the container Cranes
-                    int containerCranesItemCount = 0;
-                    for (int i = 0; i < containerCranes.size(); i++) {
-                        ContainerCrane containerCrane = containerCranes.get(i);
-                        if (!containerCrane.isRunning()) {
-                            containerCraneLabels[i].setText(containerCrane.getName() + ": Stoped");
-                        } else if (!containerCrane.isPlaying()) {
-                            containerCraneLabels[i].setText(containerCrane.getName() + ": Paused");
-                        } else if (containerCrane.isWaiting()) {
-                            containerCraneLabels[i].setText(containerCrane.getName() + ": Waiting...");
-                        } else {
-                            containerCraneLabels[i].setText(containerCrane.getName() + ": " + containerCranes.get(i).getItem().getName());
-                            containerCranesItemCount++;
-                        }
-                    }
-                    if (!containerCranes.get(0).isRunning()) {
-                        containerCranesLabel.setText("Container Cranes: Stoped");
-                    } else if (!containerCranes.get(0).isPlaying()) {
-                        containerCranesLabel.setText("Container Cranes: Paused");
-                    } else {
-                        containerCranesLabel.setText("Container Cranes: " + containerCranesItemCount + " / " + containerCranes.size());
-                    }
-
-                    // Update the oil ship
-                    if (!oilShip.isRunning()) {
-                        oilShipLabel.setText("Oil Ship: Stoped");
-                    } else {
-                        ArrayList<Item> oilShipItems = oilShip.getItems();
-                        if (oilShipItems != null) {
-                            if (!oilShip.isPlaying()) {
-                                oilShipLabel.setText("Oil Ship: Paused");
+                            if (!containerCranes.get(0).isRunning()) {
+                                containerCranesLabel.setText("Container Cranes: Stoped");
+                            } else if (!containerCranes.get(0).isPlaying()) {
+                                containerCranesLabel.setText("Container Cranes: Paused");
                             } else {
-                                oilShipLabel.setText("Oil Ship: " + oilShipItems.size() + " / " + oilShip.getMaxCount());
+                                containerCranesLabel.setText("Container Cranes: " + containerCranesItemCount + " / " + containerCranes.size());
                             }
 
-                            DefaultListModel<String> oilShipListItems = new DefaultListModel<String>();
-                            for (int i = oilShipItems.size() - 1; i >= 0; i--) {
-                                oilShipListItems.addElement(oilShipItems.get(i).getName());
-                            }
-                            oilShipList.setModel(oilShipListItems);
-
-                            if (oilShipItems.size() == 1) {
-                                JOptionPane.showMessageDialog(null, "The oil ship is cleared!");
-                            }
-                        }
-                    }
-
-                    // Update the oil Pumps
-                    int oilPumpsItemCount = 0;
-                    for (int i = 0; i < oilPumps.size(); i++) {
-                        OilPump oilPump = oilPumps.get(i);
-                        if (!oilPump.isRunning()) {
-                            oilPumpLabels[i].setText(oilPump.getName() + ": Stoped");
-                        } else if (!oilPump.isPlaying()) {
-                            oilPumpLabels[i].setText(oilPump.getName() + ": Paused");
-                        } else if (oilPump.isWaiting()) {
-                            oilPumpLabels[i].setText(oilPump.getName() + ": Waiting...");
-                        } else {
-                            oilPumpLabels[i].setText(oilPump.getName() + ": " + oilPumps.get(i).getItem().getName());
-                            oilPumpsItemCount++;
-                        }
-                    }
-                    if (!oilPumps.get(0).isRunning()) {
-                        oilPumpsLabel.setText("Oil Pumps: Stoped");
-                    } else if (!oilPumps.get(0).isPlaying()) {
-                        oilPumpsLabel.setText("Oil Pumps: Paused");
-                    } else {
-                        oilPumpsLabel.setText("Oil Pumps: " + oilPumpsItemCount + " / " + oilPumps.size());
-                    }
-
-                    // Update the quay
-                    if (!quay.isRunning()) {
-                        quayLabel.setText("Quay: Stoped");
-                    } else {
-                        ArrayList<Item> quayItems = quay.getItems();
-                        if (quayItems != null) {
-                            if (!quay.isPlaying()) {
-                                quayLabel.setText("Quay: Paused");
+                            // Update the oil ship
+                            if (!oilShip.isRunning()) {
+                                oilShipLabel.setText("Oil Ship: Stoped");
                             } else {
-                                quayLabel.setText("Quay: " + quayItems.size() + " / " + quay.getMaxCount());
+                                ArrayList<Item> oilShipItems = oilShip.getItems();
+                                if (oilShipItems != null) {
+                                    if (!oilShip.isPlaying()) {
+                                        oilShipLabel.setText("Oil Ship: Paused");
+                                    } else {
+                                        oilShipLabel.setText("Oil Ship: " + oilShipItems.size() + " / " + oilShip.getMaxCount());
+                                    }
+
+                                    DefaultListModel<String> oilShipListItems = new DefaultListModel<String>();
+                                    for (int i = oilShipItems.size() - 1; i >= 0; i--) {
+                                        oilShipListItems.addElement(oilShipItems.get(i).getName());
+                                    }
+                                    oilShipList.setModel(oilShipListItems);
+
+                                    if (oilShipItems.size() == 1) {
+                                        JOptionPane.showMessageDialog(null, "The oil ship is cleared!");
+                                    }
+                                }
                             }
 
-                            DefaultListModel<String> quayListItems = new DefaultListModel<String>();
-                            for (int i = quayItems.size() - 1; i >= 0; i--) {
-                                quayListItems.addElement(quayItems.get(i).getName());
+                            // Update the oil Pumps
+                            int oilPumpsItemCount = 0;
+                            for (int i = 0; i < oilPumps.size(); i++) {
+                                OilPump oilPump = oilPumps.get(i);
+                                if (!oilPump.isRunning()) {
+                                    oilPumpLabels[i].setText(oilPump.getName() + ": Stoped");
+                                } else if (!oilPump.isPlaying()) {
+                                    oilPumpLabels[i].setText(oilPump.getName() + ": Paused");
+                                } else if (oilPump.isWaiting()) {
+                                    oilPumpLabels[i].setText(oilPump.getName() + ": Waiting...");
+                                } else {
+                                    oilPumpLabels[i].setText(oilPump.getName() + ": " + oilPumps.get(i).getItem().getName());
+                                    oilPumpsItemCount++;
+                                }
                             }
-                            quayList.setModel(quayListItems);
-                        }
-                    }
-
-                    // Update the trucks
-                    int trucksItemCount = 0;
-                    for (int i = 0; i < trucks.size(); i++) {
-                        Truck truck = trucks.get(i);
-                        if (!truck.isRunning()) {
-                            truckLabels[i].setText(truck.getName() + ": Stoped");
-                        } else if (!truck.isPlaying()) {
-                            truckLabels[i].setText(truck.getName() + ": Paused");
-                        } else if (truck.isWaiting()) {
-                            truckLabels[i].setText(truck.getName() + ": Waiting...");
-                        } else {
-                            truckLabels[i].setText(truck.getName() + ": " + trucks.get(i).getItem().getName());
-                            trucksItemCount++;
-                        }
-                    }
-                    if (!trucks.get(0).isRunning()) {
-                        trucksLabel.setText("Trucks: Stoped");
-                    } else if (!trucks.get(0).isPlaying()) {
-                        trucksLabel.setText("Trucks: Paused");
-                    } else {
-                        trucksLabel.setText("Trucks: " + trucksItemCount + " / " + trucks.size());
-                    }
-
-                    // Update the warehouse
-                    if (!warehouse.isRunning()) {
-                        warehouseLabel.setText("Warehouse: Stoped");
-                    } else {
-                        ArrayList<Item> warehouseItems = warehouse.getItems();
-                        if (warehouseItems != null) {
-                            if (!warehouse.isPlaying()) {
-                                warehouseLabel.setText("Warehouse: Paused");
+                            if (!oilPumps.get(0).isRunning()) {
+                                oilPumpsLabel.setText("Oil Pumps: Stoped");
+                            } else if (!oilPumps.get(0).isPlaying()) {
+                                oilPumpsLabel.setText("Oil Pumps: Paused");
                             } else {
-                                warehouseLabel.setText("Warehouse: " + warehouseItems.size() + " / " + warehouse.getMaxCount());
+                                oilPumpsLabel.setText("Oil Pumps: " + oilPumpsItemCount + " / " + oilPumps.size());
                             }
 
-                            DefaultListModel<String> warehouseListItems = new DefaultListModel<String>();
-                            for (int i = warehouseItems.size() - 1; i >= 0; i--) {
-                                warehouseListItems.addElement(warehouseItems.get(i).getName());
-                            }
-                            warehouseList.setModel(warehouseListItems);
+                            // Update the quay
+                            if (!quay.isRunning()) {
+                                quayLabel.setText("Quay: Stoped");
+                            } else {
+                                ArrayList<Item> quayItems = quay.getItems();
+                                if (quayItems != null) {
+                                    if (!quay.isPlaying()) {
+                                        quayLabel.setText("Quay: Paused");
+                                    } else {
+                                        quayLabel.setText("Quay: " + quayItems.size() + " / " + quay.getMaxCount());
+                                    }
 
-                            if (warehouseItems.size() == warehouse.getMaxCount() - 1) {
-                                JOptionPane.showMessageDialog(null, "The warehouse is full!");
+                                    DefaultListModel<String> quayListItems = new DefaultListModel<String>();
+                                    for (int i = quayItems.size() - 1; i >= 0; i--) {
+                                        quayListItems.addElement(quayItems.get(i).getName());
+                                    }
+                                    quayList.setModel(quayListItems);
+                                }
+                            }
+
+                            // Update the trucks
+                            int trucksItemCount = 0;
+                            for (int i = 0; i < trucks.size(); i++) {
+                                Truck truck = trucks.get(i);
+                                if (!truck.isRunning()) {
+                                    truckLabels[i].setText(truck.getName() + ": Stoped");
+                                } else if (!truck.isPlaying()) {
+                                    truckLabels[i].setText(truck.getName() + ": Paused");
+                                } else if (truck.isWaiting()) {
+                                    truckLabels[i].setText(truck.getName() + ": Waiting...");
+                                } else {
+                                    truckLabels[i].setText(truck.getName() + ": " + trucks.get(i).getItem().getName());
+                                    trucksItemCount++;
+                                }
+                            }
+                            if (!trucks.get(0).isRunning()) {
+                                trucksLabel.setText("Trucks: Stoped");
+                            } else if (!trucks.get(0).isPlaying()) {
+                                trucksLabel.setText("Trucks: Paused");
+                            } else {
+                                trucksLabel.setText("Trucks: " + trucksItemCount + " / " + trucks.size());
+                            }
+
+                            // Update the warehouse
+                            if (!warehouse.isRunning()) {
+                                warehouseLabel.setText("Warehouse: Stoped");
+                            } else {
+                                ArrayList<Item> warehouseItems = warehouse.getItems();
+                                if (warehouseItems != null) {
+                                    if (!warehouse.isPlaying()) {
+                                        warehouseLabel.setText("Warehouse: Paused");
+                                    } else {
+                                        warehouseLabel.setText("Warehouse: " + warehouseItems.size() + " / " + warehouse.getMaxCount());
+                                    }
+
+                                    DefaultListModel<String> warehouseListItems = new DefaultListModel<String>();
+                                    for (int i = warehouseItems.size() - 1; i >= 0; i--) {
+                                        warehouseListItems.addElement(warehouseItems.get(i).getName());
+                                    }
+                                    warehouseList.setModel(warehouseListItems);
+
+                                    if (warehouseItems.size() == warehouse.getMaxCount() - 1) {
+                                        JOptionPane.showMessageDialog(null, "The warehouse is full!");
+                                    }
+                                }
                             }
                         }
-                    }
+                    });
 
-                    // Wait a short while
+                    // Let the update thread sleep for a short time
                     Utils.threadWait();
                 }
             }
@@ -473,7 +483,8 @@ public class App {
     }
 
     public static void main(String[] args) {
-        // Start the app
-        new App();
+        // Start the app in the good swing thread
+        App app = new App();
+        SwingUtilities.invokeLater(app);
     }
 }
