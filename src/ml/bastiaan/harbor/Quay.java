@@ -1,4 +1,4 @@
-// Made by Bastiaan van der Plaat (0983259) from TINPRO02-3 or TINPRO03-1
+// Made by Bastiaan van der Plaat (0983259) from TINPRO02-3 this is my first try
 
 package ml.bastiaan.harbor;
 
